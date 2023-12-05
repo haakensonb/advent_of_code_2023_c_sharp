@@ -15,4 +15,11 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green";
         var answer = Day2.SolvePart1(input1);
         Assert.Equal("8", answer);
     }
+
+    [Fact]
+    public void TestSolvePart2()
+    {
+        var answer = Day2.SolvePart2(input1);
+        Assert.Equal("2286", answer);
+    }
 }

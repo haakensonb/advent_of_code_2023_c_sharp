@@ -1,4 +1,5 @@
 ﻿namespace AdventOfCode2023;
+using System;
 
 public record GameState
 {
@@ -44,6 +45,37 @@ public record GameState
         }
         return true;
     }
+
+    public int PowerValue(List<string> cubeKeys)
+    {
+        // Get the "power" value of a Game as defined by problem
+        // Find max value of each color across entire game state (aka. fewest number of cubes needed for each color)
+
+        var cubeToMaxVal = new Dictionary<string, int>();
+        foreach (var cubeKey in cubeKeys)
+        {
+            cubeToMaxVal[cubeKey] = 1;
+        }
+
+        foreach (var key in cubeKeys)
+        {
+            foreach (var colorTotal in this.colorTotals)
+            {
+                if (colorTotal.ContainsKey(key))
+                {
+                    cubeToMaxVal[key] = Math.Max(cubeToMaxVal[key], colorTotal[key]);
+                }
+
+            }
+        }
+
+        int power = 1;
+        foreach (var cube in cubeToMaxVal)
+        {
+            power *= cube.Value;
+        }
+        return power;
+    }
 }
 
 class Day2
@@ -53,6 +85,9 @@ class Day2
             {"green", 13},
             {"blue", 14}
         };
+
+    private static List<string> cubeKeys = new List<string> { "red", "blue", "green" };
+
     public static string SolvePart1(string input)
     {
 
@@ -72,19 +107,23 @@ class Day2
         return validGameIds.Sum().ToString();
     }
 
+    public static string SolvePart2(string input)
+    {
+        var lines = input.Split(Environment.NewLine);
+        var gamePowers = lines.Select(line =>
+        {
+            var gameState = new GameState(line);
+            return gameState.PowerValue(cubeKeys);
+        });
+        return gamePowers.Sum().ToString();
+    }
+
     public static void Main()
     {
-        // var line = "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green";
-        // var line = "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red";
-        // var gameState = new GameState(line);
-        // var maxPossibleColorTotals = new Dictionary<string, int>{
-        //     {"red", 12},
-        //     {"green", 13},
-        //     {"blue", 14}
-        // };
-        // Console.WriteLine(gameState.IsPossible(maxPossibleColorTotals));
         var input = File.ReadAllText("./input.txt");
         var answerPart1 = Day2.SolvePart1(input);
         Console.WriteLine($"Day 2 part 1: {answerPart1}");
+        var answerPart2 = Day2.SolvePart2(input);
+        Console.WriteLine($"Day 2 part 2: {answerPart2}");
     }
 }
