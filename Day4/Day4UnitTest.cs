@@ -16,4 +16,11 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
         var answer = Day4.SolvePart1(this.input);
         Assert.Equal("13", answer);
     }
+
+    [Fact]
+    public void TestSolvePart2()
+    {
+        var answer = Day4.SolvePart2(this.input);
+        Assert.Equal("30", answer);
+    }
 }
