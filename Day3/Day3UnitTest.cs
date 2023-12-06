@@ -21,6 +21,13 @@ public class Day3UnitTest
     }
 
     [Fact]
+    public void TestSolvePart2()
+    {
+        var answer = Day3.SolvePart2(input);
+        Assert.Equal("467835", answer);
+    }
+
+    [Fact]
     public void TestExtractNumberAt()
     {
         var schematic = new Schematic(input);
